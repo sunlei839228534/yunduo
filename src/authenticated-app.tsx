@@ -4,6 +4,7 @@ import { ReactComponent as SoftwareLogo } from 'assets/airchina.svg'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { StudentScreen } from 'screen/student'
 import { CourseScreen } from 'screen/course'
+import { ClassScreen } from 'screen/class'
 
 export const AuthenticatedApp = () => {
   return (<Container>
@@ -12,7 +13,7 @@ export const AuthenticatedApp = () => {
       <Routes>
         <Route path='/student' element={<StudentScreen />}></Route>
         <Route path='/course' element={<CourseScreen />}></Route>
-        <Route path='/student' element={<StudentScreen />}></Route>
+        <Route path='/class' element={<ClassScreen />}></Route>
         <Route index element={<Navigate replace={true} to="/student"></Navigate>}></Route>
       </Routes>
     </Main>

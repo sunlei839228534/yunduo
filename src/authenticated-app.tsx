@@ -7,6 +7,7 @@ import { CourseScreen } from 'screen/course'
 import { ClassScreen } from 'screen/class'
 
 export const AuthenticatedApp = () => {
+
   return (<Container>
     <PageHeader />
     <Main>

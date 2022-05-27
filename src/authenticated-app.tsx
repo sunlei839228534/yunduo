@@ -1,59 +1,67 @@
-import styled from '@emotion/styled'
-import { Row, ButtonNoPadding } from 'components/lib'
-import { ReactComponent as SoftwareLogo } from 'assets/airchina.svg'
+import React, { useEffect, useState } from 'react';
+import { Layout, Menu } from 'antd';
+import {
+  ScheduleOutlined,
+  TeamOutlined,
+  UserOutlined,
+} from '@ant-design/icons';
 import { Routes, Route, Navigate } from 'react-router-dom'
-import { StudentScreen } from 'screen/student'
-import { CourseScreen } from 'screen/course'
-import { ClassScreen } from 'screen/class'
-
-export const AuthenticatedApp = () => {
-
-  return (<Container>
-    <PageHeader />
-    <Main>
-      <Routes>
-        <Route path='/student' element={<StudentScreen />}></Route>
-        <Route path='/course' element={<CourseScreen />}></Route>
-        <Route path='/class' element={<ClassScreen />}></Route>
-        <Route index element={<Navigate replace={true} to="/student"></Navigate>}></Route>
-      </Routes>
-    </Main>
-  </Container>)
-}
-
-export const PageHeader = () => {
-  return (<Header between={true}>
-    <HeaderLeft gap={3} >
-      <ButtonNoPadding style={{ width: '9rem' }} type="text" >
-        <SoftwareLogo width="3rem" color="rgb(38,132,255)"></SoftwareLogo>
-      </ButtonNoPadding>
-      <div>学生</div>
-      <div>课表</div>
-      <div>班级</div>
-    </HeaderLeft>
-    <HeaderRight>2</HeaderRight>
-  </Header>)
-}
-
-const Container = styled.div`
-display: grid;
-grid-template-rows: 6rem 1fr;
-height: 100vh;
-`
+import { StudentScreen } from 'screen/student';
+import type { MenuProps } from 'antd';
+import styled from '@emotion/styled';
+import { ReactComponent as SoftwareLogo } from 'assets/pic/logo.svg'
+import { useNavigate, useLocation } from 'react-router';
+import { MenuClickEventHandler } from 'rc-menu/lib/interface';
+import { CourseScreen } from 'screen/course';
+import { ClassScreen } from 'screen/class';
+import { routerConfig } from 'router'
 
 
-const Header = styled(Row)`
-  padding: 1.6rem 3.2rem;
-  box-shadow: 0 0 5px 0 rgba(0,0,0,0.1);
-`
+const { Header, Content, Sider } = Layout;
 
-const HeaderLeft = styled(Row)`
-`
+type MenuItem = Required<MenuProps>['items'][number];
 
-const HeaderRight = styled.div`
-`
 
-const Main = styled.main`
-  display: flex;
-  overflow: hidden;
-`
+const items: MenuItem[] = [
+  { key: '/student', icon: <UserOutlined />, label: '学生管理' },
+  { key: '/course', icon: <ScheduleOutlined />, label: '课程管理' },
+  { key: '/class', icon: <TeamOutlined />, label: '班级管理' },
+];
+
+export const AuthenticatedApp: React.FC = () => {
+  const { pathname } = useLocation()
+  const navigate = useNavigate()
+
+  const [collapsed, setCollapsed] = useState(false);
+  const [selectedKey, setSelectedKey] = useState(pathname)
+
+  const changeMenuItem: MenuClickEventHandler = ({ key, keyPath }) => {
+    navigate(key)
+  }
+  useEffect(() => {
+    setSelectedKey(pathname)
+  }, [pathname])
+  return (
+    <Layout style={{ minHeight: '100vh' }}>
+      <Header style={{ padding: '0 16px' }}>
+        <SoftwareLogo width='12rem' height="6.4rem" />
+      </Header>
+      <Layout className="site-layout">
+        <Sider collapsible collapsed={collapsed} onCollapse={value => setCollapsed(value)}>
+          <Menu onClick={changeMenuItem} theme="dark" selectedKeys={[selectedKey]} forceSubMenuRender mode="inline" items={items} />
+        </Sider>
+        <Content style={{ margin: '32px' }}>
+          <Routes >
+            {routerConfig.map(route => <Route key={route.path} path={route.path} element={route.element} />)}
+            {/* <Route path='/student' element={<StudentScreen />}></Route>
+            <Route path='/course' element={<CourseScreen />}></Route>
+            <Route path='/class' element={<ClassScreen />}></Route>
+            <Route index element={<Navigate replace={true} to='/student'></Navigate>}></Route> */}
+          </Routes>
+        </Content>
+      </Layout>
+    </Layout>
+  );
+};
+
+

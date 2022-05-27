@@ -1,7 +1,7 @@
 export const CourseScreen = () => {
   return (
     <div>
-      Course
+      courseScreen
     </div>
   )
 }

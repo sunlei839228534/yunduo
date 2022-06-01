@@ -1,15 +1,53 @@
-import { createContext, ReactNode, useContext, useState } from "react";
+import { createContext, ReactNode, useContext, useEffect, useState } from "react";
+import { AuthForm, RegisterForm, User } from "types/user";
+import * as auth from 'auth-provider'
+import { http } from "utils/use-http";
+
+export const bootStrapUser = async () => {
+  let user = null
+  let token = auth.getToken()
+
+  if (token) {
+    user = await http({
+      url: '/verify',
+      method: 'POST',
+      data: {
+        token
+      }
+    })
+    user.token = token
+  }
+  return user
+}
 
 const AuthContext = createContext<{
-  name: number
+  user: User | null,
+  login: (form: AuthForm) => Promise<void>,
+  register: (form: RegisterForm) => Promise<void>,
+  logout: () => Promise<void>
 } | undefined>(undefined)
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [name, setName] = useState(12)
+  const [user, setUser] = useState<User | null>(null)
 
-  return <AuthContext.Provider children={children} value={{ name }}></AuthContext.Provider>
+  const login = (form: AuthForm) => {
+    return auth.login(form).then(setUser)
+  }
+  const register = (form: RegisterForm) => {
+    return auth.register(form).then(setUser)
+  }
+  const logout = () => auth.logout().then(() => {
+    setUser(null)
+  })
+
+  useEffect(() => {
+    bootStrapUser().then(res => {
+      setUser(res)
+    })
+  }, [])
+
+  return <AuthContext.Provider children={children} value={{ user, login, logout, register }}></AuthContext.Provider>
 }
-
 
 
 export const useAuth = () => {

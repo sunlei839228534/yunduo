@@ -5,7 +5,7 @@ import { ScheduleOutlined, TeamOutlined, UserOutlined, } from '@ant-design/icons
 import { Routes, Route } from 'react-router-dom'
 import type { MenuProps } from 'antd';
 import styled from '@emotion/styled';
-import { ReactComponent as SoftwareLogo } from 'assets/pic/logo.svg'
+import { ReactComponent as SoftwareLogo } from 'assets/pic/softwareLogo.svg'
 import { MenuClickEventHandler } from 'rc-menu/lib/interface';
 import { routerConfig } from 'router'
 import { useAuth } from 'context/auth';

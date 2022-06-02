@@ -18,7 +18,6 @@ export const http = async (config: AxiosRequestConfig) => {
 
 export const useHttp = () => {
   const { user } = useAuth()
-  console.log(user);
 
   return (config: AxiosRequestConfig) => http({
     ...config,

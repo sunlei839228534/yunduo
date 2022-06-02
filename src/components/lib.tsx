@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
-import { Button } from "antd";
+import { Button, Typography } from "antd";
+import { isArray } from "utils";
 
 export const Row = styled.div<{ gap?: number | boolean, between?: boolean, marginBottom?: number }>`
   display: flex;
@@ -16,3 +17,20 @@ export const Row = styled.div<{ gap?: number | boolean, between?: boolean, margi
 export const ButtonNoPadding = styled(Button)`
   padding: 0;
 `
+
+export interface customError {
+  error_code: number,
+  msg: string[],
+  request: string
+}
+
+
+export const ErrorBox = ({ error }: {
+  error: customError | null
+}) => {
+  console.log(error);
+  if (error?.error_code) {
+    return <Typography.Text type="danger">{isArray(error.msg) ? error.msg[0] : error.msg}</Typography.Text>
+  }
+  return null
+}

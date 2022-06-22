@@ -1,4 +1,5 @@
-import axios, { AxiosRequestConfig } from 'axios'
+import { message } from 'antd'
+import axios, { AxiosError, AxiosRequestConfig } from 'axios'
 import { useAuth } from 'context/auth'
 
 const ERR_CODE = 200
@@ -10,9 +11,16 @@ const request = axios.create({
 
 
 export const http = async (config: AxiosRequestConfig) => {
-  const result = await request(config)
-  if (result.status === ERR_CODE) {
-    return result.data
+  try {
+    const result = await request(config)
+    if (result.status === ERR_CODE) {
+      return result.data
+    }
+  } catch (e: any) {
+    if (e instanceof AxiosError) {
+      const errorInfo = e.response?.data.msg
+      throw new Error(errorInfo)
+    }
   }
 }
 

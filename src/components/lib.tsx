@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { Button, Typography } from "antd";
+import { Button, Spin, Typography } from "antd";
 import { isArray } from "utils";
 
 export const Row = styled.div<{ gap?: number | boolean, between?: boolean, marginBottom?: number }>`
@@ -34,3 +34,19 @@ export const ErrorBox = ({ error }: {
   }
   return null
 }
+
+const FullPage = styled.div`
+ height: 100vh;
+ display: flex;
+ justify-content: center;
+ align-items: center;
+`
+
+export const FullPageLoading = () => <FullPage>
+  <Spin size={"large"} />
+</FullPage>
+
+
+export const ContextWrapper = styled.div`
+  padding: 4rem;
+`

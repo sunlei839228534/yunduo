@@ -2,6 +2,8 @@ import { createContext, ReactNode, useContext, useEffect, useState } from "react
 import { AuthForm, RegisterForm, User } from "types/user";
 import * as auth from 'auth-provider'
 import { http } from "utils/use-http";
+import { FullPageLoading } from "components/lib";
+import { useQuery } from "react-query";
 
 export const bootStrapUser = async () => {
   let user = null
@@ -29,22 +31,34 @@ const AuthContext = createContext<{
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null)
+  const [isLoading, setIsLoading] = useState(false)
 
   const login = (form: AuthForm) => {
-    return auth.login(form).then(setUser)
+    return auth.login(form).then((user) => {
+      setUser(user)
+    })
   }
+
   const register = (form: RegisterForm) => {
-    return auth.register(form).then(setUser)
+    return auth.register(form).then(user => {
+      setUser(user)
+    })
   }
   const logout = () => auth.logout().then(() => {
     setUser(null)
   })
 
   useEffect(() => {
+    setIsLoading(true)
     bootStrapUser().then(res => {
       setUser(res)
+    }).finally(() => {
+      setIsLoading(false)
     })
   }, [])
+  if (isLoading) {
+    return <FullPageLoading />
+  }
 
   return <AuthContext.Provider children={children} value={{ user, login, logout, register }}></AuthContext.Provider>
 }

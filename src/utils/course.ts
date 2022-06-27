@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "react-query"
+import { useMutation, useQuery, useQueryClient } from "react-query"
 import { Course } from "types/course"
 import { useHttp } from "./use-http"
 
@@ -14,9 +14,20 @@ export const useCreateCourse = () => {
 
 export const useQueryCourse = () => {
   const http = useHttp()
-
-  return useQuery('queryCourse', () => http({
+  return useQuery(['queryCourse'], () => http({
     url: '/course/query',
     method: 'POST'
   }))
+}
+
+export const useCourseDelete = () => {
+  const http = useHttp()
+  const queryClient = useQueryClient()
+
+  return useMutation((id: number) => http({
+    method: 'DELETE',
+    url: `/course/${id}`
+  }), {
+    onSuccess: () => queryClient.invalidateQueries('queryCourse')
+  })
 }

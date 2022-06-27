@@ -1,12 +1,12 @@
 import { Form, Input } from "antd"
 import { LongButton } from "unAuthenticated-app"
 import { AuthForm } from 'types/user'
-import { useAuth } from "context/auth"
+import { useProvider } from "context/provider"
 import { customError } from "components/lib"
 
 
 export const LoginScreen = ({ onError }: { onError: (error: customError) => void }) => {
-  const { login } = useAuth()
+  const { login } = useProvider()
   const handleSubmit = async (data: AuthForm) => {
     try {
       await login(data)

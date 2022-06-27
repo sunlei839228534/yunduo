@@ -1,6 +1,6 @@
 import { message } from 'antd'
 import axios, { AxiosError, AxiosRequestConfig } from 'axios'
-import { useAuth } from 'context/auth'
+import { useProvider } from 'context/provider'
 
 const ERR_CODE = 200
 const baseURL = process.env.REACT_APP_API_URL
@@ -25,7 +25,7 @@ export const http = async (config: AxiosRequestConfig) => {
 }
 
 export const useHttp = () => {
-  const { user } = useAuth()
+  const { user } = useProvider()
 
   return (config: AxiosRequestConfig) => http({
     ...config,

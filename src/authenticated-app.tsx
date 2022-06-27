@@ -5,9 +5,8 @@ import type { MenuProps } from 'antd';
 import styled from '@emotion/styled';
 import { ReactComponent as SoftwareLogo } from 'assets/pic/softwareLogo.svg'
 import { useElements } from 'router'
-import { useAuth } from 'context/auth';
+import { useProvider } from 'context/provider';
 import { useMenu } from 'utils/use-menu';
-
 
 const { Header, Content, Sider } = Layout;
 
@@ -20,38 +19,44 @@ const items: MenuProps['items'] = [
 
 export const AuthenticatedApp: React.FC = () => {
   const { selectedKey, changeMenuItem } = useMenu(items)
-  const { logout, user } = useAuth()
+  const { logout, user } = useProvider()
   const element = useElements()
   const [collapsed, setCollapsed] = useState(false);
+
+
   return (
-    <Layout style={{ height: '100vh' }}>
-      <PageHeader style={{ padding: '0 16px' }}>
-        <PageHeaderLeft>
-          <Logo />
-        </PageHeaderLeft>
-        <PageHeaderRight>
-          <Dropdown overlay={<OverlayAvatar logout={logout} />}>
-            <Avatar style={{ background: 'rgb(24, 144, 255)' }}>{user?.user.nickname}</Avatar>
-          </Dropdown>
-        </PageHeaderRight>
-      </PageHeader>
-      <Layout >
-        <Sider collapsible collapsed={collapsed} onCollapse={value => setCollapsed(value)}>
-          <Menu
-            onClick={changeMenuItem}
-            theme="dark"
-            selectedKeys={[selectedKey]}
-            mode="inline"
-            items={items}
-          />
-        </Sider>
-        <Content style={{ padding: '1.6rem', background: '#fff', overflowY: 'auto' }}>
-          {element}
-        </Content>
+    <div>
+      <Layout style={{ height: '100vh' }}>
+        <PageHeader style={{ padding: '0 16px' }}>
+          <PageHeaderLeft>
+            <Logo />
+          </PageHeaderLeft>
+          <PageHeaderRight>
+            <Dropdown overlay={<OverlayAvatar logout={logout} />}>
+              <Avatar style={{ background: 'rgb(24, 144, 255)' }}>{user?.user.nickname}</Avatar>
+            </Dropdown>
+          </PageHeaderRight>
+        </PageHeader>
+        <Layout >
+          <Sider collapsible collapsed={collapsed} onCollapse={value => setCollapsed(value)}>
+            <Menu
+              onClick={changeMenuItem}
+              theme="dark"
+              selectedKeys={[selectedKey]}
+              mode="inline"
+              items={items}
+            />
+          </Sider>
+          <Content style={{ padding: '1.6rem', background: '#fff', overflowY: 'auto' }}>
+            {element}
+          </Content>
+        </Layout>
       </Layout>
-    </Layout>
+    </div>
+
   );
 };
+
 
 const OverlayAvatar = ({ logout }: { logout: () => void }) => {
   return <Menu items={[{ key: 'logout', label: <a onClick={logout}>登出</a> }]} />

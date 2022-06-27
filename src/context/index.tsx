@@ -1,4 +1,4 @@
 import { ReactNode } from "react";
-import { AuthProvider } from "./auth";
+import { Provider } from "./provider";
 
-export const AppProviders = ({ children }: { children: ReactNode }) => <AuthProvider children={children}></AuthProvider>
+export const AppProviders = ({ children }: { children: ReactNode }) => <Provider children={children}></Provider>

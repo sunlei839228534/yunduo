@@ -1,4 +1,3 @@
-import { useAuth } from "context/auth"
 import { Button, Card } from 'antd'
 import { useState } from "react"
 import styled from "@emotion/styled"
@@ -10,7 +9,6 @@ import { RegisterScreen } from "./register"
 import { customError, ErrorBox } from 'components/lib'
 
 export const UnAuthenticatedApp = () => {
-  const { user, login, register } = useAuth()
   const [isRegister, setIsRegister] = useState(false)
   const [error, setError] = useState<customError | null>(null)
 

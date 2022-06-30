@@ -3,8 +3,6 @@ import { AuthForm, RegisterForm, User } from "types/user";
 import * as auth from 'auth-provider'
 import { http } from "utils/use-http";
 import { FullPageLoading } from "components/lib";
-import { UserActionKind, UserReducer } from "./user";
-import { CourseActionKind, CourseReducer } from './course'
 
 export const bootStrapUser = async () => {
   let user = null
@@ -28,61 +26,34 @@ const Context = createContext<{
   login: (form: AuthForm) => Promise<void>,
   register: (form: RegisterForm) => Promise<void>,
   logout: () => Promise<void>,
-  showModal: boolean,
-  toggle: (record: any) => void
 } | undefined>(undefined)
 
 
 
 export const Provider = ({ children }: { children: ReactNode }) => {
+  const [user, setUser] = useState<User | null>(null)
   const [isLoading, setIsLoading] = useState(false)
-
-  const [userState, userDispatch] = useReducer(UserReducer, {
-    user: null
-  })
-  const [courseState, courseDispatch] = useReducer(CourseReducer, {
-    showModal: false
-  })
-
-  const toggle = (record: any) => {
-    console.log(record);
-
-    courseDispatch({
-      type: CourseActionKind.TOGGLE
-    })
-  }
 
   const login = (form: AuthForm) => {
     return auth.login(form).then((user) => {
-      userDispatch({
-        type: UserActionKind.LOGIN,
-        paylod: user
-      })
+      setUser(user)
     })
   }
 
   const register = (form: RegisterForm) => {
     return auth.register(form).then(user => {
-      userDispatch({
-        type: UserActionKind.LOGIN,
-        paylod: user
-      })
+      setUser(user)
     })
   }
+
   const logout = () => auth.logout().then(() => {
-    userDispatch({
-      type: UserActionKind.LOGOUT,
-      paylod: null
-    })
+    setUser(null)
   })
 
   useEffect(() => {
     setIsLoading(true)
     bootStrapUser().then(res => {
-      userDispatch({
-        type: UserActionKind.LOGIN,
-        paylod: res
-      })
+      setUser(res)
     }).finally(() => {
       setIsLoading(false)
     })
@@ -94,8 +65,7 @@ export const Provider = ({ children }: { children: ReactNode }) => {
   }
 
   return <Context.Provider children={children} value={{
-    user: userState.user, login, logout, register,
-    showModal: courseState.showModal, toggle
+    user, login, logout, register,
   }}></Context.Provider>
 }
 

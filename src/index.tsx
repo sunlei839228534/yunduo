@@ -6,6 +6,8 @@ import { BrowserRouter } from 'react-router-dom'
 import { QueryClientProvider, QueryClient } from 'react-query'
 
 import 'antd/dist/antd.css';
+import { Provider } from 'react-redux';
+import { store } from 'store';
 
 const queryClinet = new QueryClient({
   defaultOptions: {
@@ -19,14 +21,15 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
-  <QueryClientProvider client={queryClinet}>
-    <AppProviders>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </AppProviders>
-  </QueryClientProvider>
-
+  <Provider store={store}>
+    <QueryClientProvider client={queryClinet}>
+      <AppProviders>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </AppProviders>
+    </QueryClientProvider>
+  </Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -3,10 +3,8 @@ import { Table, Popconfirm, message } from 'antd'
 import { ColumnProps } from "antd/lib/table"
 import { Course } from "types/course"
 import { COURSE_MAP } from "utils/constant"
-import { CourseFormModal } from 'components/course'
-import { ReducerAction, useReducer } from "react"
-import { useProvider } from "context/provider"
-
+import { useDispatch } from "react-redux"
+import { courseActions } from "../course.slice"
 
 
 const columns: ColumnProps<Course>[] = [
@@ -58,7 +56,7 @@ export const ManageCourseScreen = () => {
 
 const ActionScreen = ({ record }: { record: Course }) => {
   const { mutateAsync: deleteCourse } = useCourseDelete()
-  const { toggle, showModal } = useProvider()
+  const dispatch = useDispatch()
 
   const handleDeleteCourse = async () => {
     try {
@@ -71,7 +69,10 @@ const ActionScreen = ({ record }: { record: Course }) => {
 
   return (
     <div>
-      <a onClick={() => { toggle(record) }} style={{ marginRight: '2rem' }}>编辑</a>
+      <a onClick={() => {
+        dispatch(courseActions.openCourseModal())
+        dispatch(courseActions.setCourse(record))
+      }} style={{ marginRight: '2rem' }}>编辑</a>
       <Popconfirm
         title={`确定要删除课程 ${record.name} 吗?`}
         okText='确定'

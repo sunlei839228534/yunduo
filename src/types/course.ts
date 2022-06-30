@@ -5,3 +5,4 @@ export interface Course {
   chargeStandard?: number,
   id: number
 }
+

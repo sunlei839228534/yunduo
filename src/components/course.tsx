@@ -1,13 +1,20 @@
-import { Button, Form, Input, Radio, InputNumber, Divider, FormProps, Modal } from 'antd'
-import { useCallback, useEffect, useState } from 'react'
+import { Button, Form, Input, Radio, InputNumber, Divider, FormProps, Modal, message } from 'antd'
+import { useForm } from 'antd/lib/form/Form'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { courseActions, courseForm, courseModalOpen } from 'screen/course/course.slice'
+import { Course } from 'types/course'
+import { useCourseUpdate } from 'utils/course'
 
 interface CourseFormProps extends FormProps {
   isEditing?: boolean,
-  isLoading?: boolean
+  isLoading?: boolean,
+  record?: Course | null
 }
 
-export const CourseForm = ({ isEditing, isLoading, ...props }: CourseFormProps) => {
+export const CourseForm = ({ isEditing, isLoading, record, ...props }: CourseFormProps) => {
   const chargeModeVal = Form.useWatch('chargeMode', props.form)
+
   return <Form labelWrap {...props} >
     <Form.Item name="name"
       label="课程名称"
@@ -64,7 +71,51 @@ export const CourseForm = ({ isEditing, isLoading, ...props }: CourseFormProps) 
   </Form>
 }
 
-export const CourseFormModal = ({ show }: { show: boolean }) => {
-  return <Modal visible={show}>112233</Modal>
+export const CourseFormModal = () => {
+  const dispatch = useDispatch()
+  const [form] = useForm()
+
+  const modalOpen = useSelector(courseModalOpen)
+  const formFields = useSelector(courseForm)
+
+  const { mutateAsync: updateCourse, isLoading } = useCourseUpdate()
+
+  useEffect(() => {
+    form.setFieldsValue(formFields)
+  }, [form, formFields])
+
+  const onCancel = () => {
+    dispatch(courseActions.closeCourseModal())
+  }
+
+  const handleSubmit = async (e: Course) => {
+    try {
+      await updateCourse({
+        record: e,
+        id: formFields!.id
+      })
+      message.success('编辑成功!')
+      dispatch(courseActions.closeCourseModal())
+    } catch (e) {
+      if (e instanceof Error) {
+        message.error(e.message)
+      }
+    }
+  }
+
+  return <Modal
+    forceRender
+    onCancel={onCancel}
+    visible={modalOpen}
+    footer={null}
+  >
+    <CourseForm
+      onFinish={handleSubmit}
+      isLoading={isLoading}
+      isEditing={true}
+      style={{ padding: '2rem' }}
+      form={form}
+    ></CourseForm>
+  </Modal>
 }
 

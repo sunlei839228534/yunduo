@@ -31,3 +31,16 @@ export const useCourseDelete = () => {
     onSuccess: () => queryClient.invalidateQueries('queryCourse')
   })
 }
+
+export const useCourseUpdate = () => {
+  const http = useHttp()
+  const queryClient = useQueryClient()
+
+  return useMutation(({ record, id }: { record: Course, id: number }) => http({
+    method: 'PUT',
+    url: `/course/${id}`,
+    data: record
+  }), {
+    onSuccess: () => queryClient.invalidateQueries('queryCourse')
+  })
+}

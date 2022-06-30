@@ -7,6 +7,7 @@ import { ReactComponent as SoftwareLogo } from 'assets/pic/softwareLogo.svg'
 import { useElements } from 'router'
 import { useProvider } from 'context/provider';
 import { useMenu } from 'utils/use-menu';
+import { CourseFormModal } from 'components/course'
 
 const { Header, Content, Sider } = Layout;
 
@@ -52,6 +53,7 @@ export const AuthenticatedApp: React.FC = () => {
           </Content>
         </Layout>
       </Layout>
+      <CourseFormModal />
     </div>
 
   );

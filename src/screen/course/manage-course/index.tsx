@@ -5,6 +5,7 @@ import { Course } from "types/course"
 import { COURSE_MAP } from "utils/constant"
 import { useDispatch } from "react-redux"
 import { courseActions } from "../course.slice"
+import { Link } from "react-router-dom"
 
 
 const columns: ColumnProps<Course>[] = [
@@ -85,3 +86,8 @@ const ActionScreen = ({ record }: { record: Course }) => {
   )
 }
 
+const EmptyText = () => {
+  return <div>
+    没有课程？<Link to="/course/add">新建课程</Link>
+  </div>
+}

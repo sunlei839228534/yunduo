@@ -28,7 +28,7 @@ export const useMenu = (items: MenuProps['items']) => {
     return result
   }
 
-  const changeMenuItem: MenuClickEventHandler = ({ key, keyPath }) => {
+  const changeMenuItem: MenuClickEventHandler = ({ key }) => {
     navigate(key)
   }
 

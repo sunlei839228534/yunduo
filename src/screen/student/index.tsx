@@ -1,11 +1,23 @@
-import { useEffect } from "react"
-import { useHttp } from "utils/use-http"
+import { Menu, MenuProps, } from 'antd'
+import { useMenu } from 'utils/use-menu'
+import { Outlet } from 'react-router'
+import { NavLink } from 'react-router-dom'
+
+const items: MenuProps['items'] = [{
+  label: <NavLink to="add">新增学员</NavLink>,
+  key: '/student/add'
+}, {
+  label: <NavLink to="manage">学员管理</NavLink>,
+  key: '/student/manage'
+}]
 
 export const StudentScreen = () => {
-  const http = useHttp()
+  const { selectedKey, changeMenuItem } = useMenu(items)
+
   return (
     <div>
-      student
+      <Menu defaultSelectedKeys={[selectedKey]} onClick={changeMenuItem} items={items} mode="horizontal" />
+      <Outlet />
     </div>
   )
 }

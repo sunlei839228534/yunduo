@@ -17,7 +17,6 @@ export const courseSlice = createSlice({
   initialState,
   reducers: {
     openCourseModal(state) {
-      console.log(state);
       state.modalOpen = true
     },
     closeCourseModal(state) {

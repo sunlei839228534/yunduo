@@ -4,6 +4,8 @@ import { CourseScreen } from "screen/course";
 import { AddCourseScreen } from "screen/course/add-course";
 import { ManageCourseScreen } from "screen/course/manage-course";
 import { StudentScreen } from "screen/student";
+import { AddStudentScreen } from "screen/student/add-student";
+import { ManageStudentScreen } from "screen/student/manage-student";
 
 
 export const useElements = () => {
@@ -14,7 +16,21 @@ export const useElements = () => {
     },
     {
       path: '/student',
-      element: <StudentScreen />
+      element: <StudentScreen />,
+      children: [
+        {
+          path: '',
+          element: <Navigate to={'add'} />
+        },
+        {
+          path: 'add',
+          element: <AddStudentScreen />
+        },
+        {
+          path: 'manage',
+          element: <ManageStudentScreen />
+        }
+      ]
     },
     {
       path: '/class',

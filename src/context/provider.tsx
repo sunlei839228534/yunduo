@@ -3,20 +3,30 @@ import { AuthForm, RegisterForm, User } from "types/user";
 import * as auth from 'auth-provider'
 import { http } from "utils/use-http";
 import { FullPageLoading } from "components/lib";
+import { message } from 'antd'
 
 export const bootStrapUser = async () => {
   let user = null
   let token = auth.getToken()
 
   if (token) {
-    user = await http({
-      url: '/verify',
-      method: 'POST',
-      data: {
-        token
+    try {
+      user = await http({
+        url: '/verify',
+        method: 'POST',
+        data: {
+          token
+        }
+      })
+      user.token = token
+
+    } catch (e) {
+      if (e instanceof Error) {
+        message.error(`${e.message}, 请重新登陆！`)
+        auth.logout()
       }
-    })
-    user.token = token
+    }
+
   }
   return user
 }

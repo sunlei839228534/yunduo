@@ -12,7 +12,7 @@ interface CourseFormProps extends FormProps {
   record?: Course | null
 }
 
-export const CourseForm = ({ isEditing, isLoading, record, ...props }: CourseFormProps) => {
+export const CourseForm = ({ isEditing, isLoading, ...props }: CourseFormProps) => {
   const chargeModeVal = Form.useWatch('chargeMode', props.form)
 
   return <Form labelWrap {...props} >
@@ -91,8 +91,8 @@ export const CourseFormModal = () => {
   const handleSubmit = async (e: Course) => {
     try {
       await updateCourse({
+        id: formFields!.id,
         record: e,
-        id: formFields!.id
       })
       message.success('编辑成功!')
       dispatch(courseActions.closeCourseModal())

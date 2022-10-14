@@ -7,7 +7,7 @@ const items: MenuProps['items'] = [{
   label: <NavLink to="add">新建课程</NavLink>,
   key: '/course/add'
 }, {
-  label: <NavLink to="manage">管理课程</NavLink>,
+  label: <NavLink to="manage">课程管理</NavLink>,
   key: '/course/manage'
 }]
 
@@ -21,3 +21,4 @@ export const CourseScreen = () => {
     </div>
   )
 }
+

@@ -1,28 +1,27 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { Course } from "types/course"
+import { Student } from "types/student"
 
-
-export interface CourseState {
+export interface StudentState {
   visible: boolean,
-  form: Course | undefined,
+  form: Student | undefined,
   formType: 'add' | 'edit' | undefined
 }
 
-const initialState: CourseState = {
+const initialState: StudentState = {
   visible: false,
   form: undefined,
   formType: undefined
 }
 
-export const courseSlice = createSlice({
-  name: 'courseSlice',
+export const studentSlice = createSlice({
+  name: 'studentSlice',
   initialState,
   reducers: {
-    addCourse(state) {
+    addStudent(state) {
       state.formType = 'add'
       state.visible = true
     },
-    editCourse(state, { payload }) {
+    editStudent(state, { payload }) {
       state.formType = 'edit'
       state.form = payload
       state.visible = true
@@ -35,5 +34,6 @@ export const courseSlice = createSlice({
   },
 })
 
-export const { addCourse, editCourse, close } = courseSlice.actions
+export const { addStudent, editStudent, close } = studentSlice.actions
+
 

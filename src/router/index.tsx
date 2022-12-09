@@ -1,10 +1,8 @@
-import { Navigate, RouteObject, useRoutes } from "react-router";
+import { Navigate, useRoutes } from "react-router";
 import { ClassScreen } from "screen/class";
 import { CourseScreen } from "screen/course";
-import { AddCourseScreen } from "screen/course/add-course";
 import { ManageCourseScreen } from "screen/course/manage-course";
 import { StudentScreen } from "screen/student";
-import { AddStudentScreen } from "screen/student/add-student";
 import { ManageStudentScreen } from "screen/student/manage-student";
 
 
@@ -20,11 +18,7 @@ export const useElements = () => {
       children: [
         {
           path: '',
-          element: <Navigate to={'add'} />
-        },
-        {
-          path: 'add',
-          element: <AddStudentScreen />
+          element: <Navigate to={'manage'} />
         },
         {
           path: 'manage',
@@ -42,11 +36,7 @@ export const useElements = () => {
       children: [
         {
           path: '',
-          element: <Navigate to={'add'} />
-        },
-        {
-          path: 'add',
-          element: <AddCourseScreen />
+          element: <Navigate to={'manage'} />
         },
         {
           path: 'manage',

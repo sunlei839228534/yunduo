@@ -1,11 +1,10 @@
 import { useQueryCourse, useCourseDelete } from "utils/course"
-import { Table, Popconfirm, message } from 'antd'
+import { Table, Popconfirm, message, Row, Col, Button } from 'antd'
 import { ColumnProps } from "antd/lib/table"
 import { Course } from "types/course"
 import { COURSE_MAP } from "utils/constant"
 import { useDispatch } from "react-redux"
-import { courseActions } from "../course.slice"
-import { Link } from "react-router-dom"
+import { addCourse, editCourse } from "../course.slice"
 
 
 const columns: ColumnProps<Course>[] = [
@@ -51,13 +50,36 @@ export const ManageCourseScreen = () => {
   const { data: Course, isLoading } = useQueryCourse()
 
   return <div style={{ padding: '4rem 0' }}>
+    <CourseActionView />
     <Table rowKey={'id'} loading={isLoading} dataSource={Course} columns={columns} />
   </div>
 }
 
+const CourseActionView = () => {
+  const dispatch = useDispatch()
+
+  const handleAddCourse = () => {
+    dispatch(addCourse())
+  }
+
+  return (
+    <div style={{ margin: '0 0 32px 0', }}>
+      <Row>
+        <Col span={6}>
+          <Button onClick={handleAddCourse} type="primary">新增课程</Button>
+        </Col>
+      </Row>
+    </div>)
+}
+
+
 const ActionScreen = ({ record }: { record: Course }) => {
   const { mutateAsync: deleteCourse } = useCourseDelete()
   const dispatch = useDispatch()
+
+  const handleEditCourse = () => {
+    dispatch(editCourse(record))
+  }
 
   const handleDeleteCourse = async () => {
     try {
@@ -70,10 +92,9 @@ const ActionScreen = ({ record }: { record: Course }) => {
 
   return (
     <div>
-      <a onClick={() => {
-        dispatch(courseActions.openCourseModal())
-        dispatch(courseActions.setCourse(record))
-      }} style={{ marginRight: '2rem' }}>编辑</a>
+      <a onClick={handleEditCourse} style={{ marginRight: '2rem' }}>
+        编辑
+      </a>
       <Popconfirm
         title={`确定要删除课程 ${record.name} 吗?`}
         okText='确定'
@@ -84,10 +105,4 @@ const ActionScreen = ({ record }: { record: Course }) => {
       </Popconfirm>
     </div>
   )
-}
-
-const EmptyText = () => {
-  return <div>
-    没有课程？<Link to="/course/add">新建课程</Link>
-  </div>
 }

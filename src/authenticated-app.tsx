@@ -7,15 +7,14 @@ import { ReactComponent as SoftwareLogo } from 'assets/pic/softwareLogo.svg'
 import { useElements } from 'router'
 import { useProvider } from 'context/provider';
 import { useMenu } from 'utils/use-menu';
-import { CourseFormModal } from 'components/course'
 
 const { Header, Content, Sider } = Layout;
 
 
 const items: MenuProps['items'] = [
-  { key: '/student', icon: <UserOutlined />, label: '学生管理' },
+  { key: '/student', icon: <UserOutlined />, label: '学员管理' },
   { key: '/course', icon: <ScheduleOutlined />, label: '课程管理' },
-  { key: '/class', icon: <TeamOutlined />, label: '班级管理' }
+  // { key: '/class', icon: <TeamOutlined />, label: '班级管理' }
 ];
 
 export const AuthenticatedApp: React.FC = () => {
@@ -53,7 +52,6 @@ export const AuthenticatedApp: React.FC = () => {
           </Content>
         </Layout>
       </Layout>
-      <CourseFormModal />
     </div>
 
   );

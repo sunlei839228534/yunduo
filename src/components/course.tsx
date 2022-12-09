@@ -1,18 +1,18 @@
-import { Button, Form, Input, Radio, InputNumber, Divider, FormProps, Modal, message } from 'antd'
+import { Button, Form, Input, Radio, InputNumber, Divider, FormProps, message, Drawer } from 'antd'
 import { useForm } from 'antd/lib/form/Form'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { courseActions, courseForm, courseModalOpen } from 'screen/course/course.slice'
+import { CourseState, addCourse, editCourse, close } from 'screen/course/course.slice'
+import { RootState } from 'store'
 import { Course } from 'types/course'
-import { useCourseUpdate } from 'utils/course'
+import { useCourseUpdate, useCreateCourse } from 'utils/course'
 
 interface CourseFormProps extends FormProps {
-  isEditing?: boolean,
   isLoading?: boolean,
   record?: Course | null
 }
 
-export const CourseForm = ({ isEditing, isLoading, ...props }: CourseFormProps) => {
+export const CourseForm = ({ isLoading, ...props }: CourseFormProps) => {
   const chargeModeVal = Form.useWatch('chargeMode', props.form)
 
   return <Form labelWrap {...props} >
@@ -22,7 +22,7 @@ export const CourseForm = ({ isEditing, isLoading, ...props }: CourseFormProps) 
         required: true,
         message: '请填写课程名称'
       }]}>
-      <Input style={{ width: '30rem' }} showCount maxLength={16} id="name" placeholder='最多输入16个字'></Input>
+      <Input showCount maxLength={16} id="name" placeholder='最多输入16个字'></Input>
     </Form.Item>
     <Form.Item
       name="teachingMode"
@@ -65,7 +65,7 @@ export const CourseForm = ({ isEditing, isLoading, ...props }: CourseFormProps) 
     <Form.Item >
       <Divider />
       <Button loading={isLoading} htmlType='submit' type="primary">
-        {isEditing ? '确认' : '新建'}
+        确认
       </Button>
     </Form.Item>
   </Form>
@@ -75,47 +75,62 @@ export const CourseFormModal = () => {
   const dispatch = useDispatch()
   const [form] = useForm()
 
-  const modalOpen = useSelector(courseModalOpen)
-  const formFields = useSelector(courseForm)
+  const { visible, form: formFields, formType: type } = useSelector<RootState, CourseState>(state => state.course)
 
-  const { mutateAsync: updateCourse, isLoading } = useCourseUpdate()
+
+  const { mutateAsync: updateCourse } = useCourseUpdate()
+  const { mutateAsync: createCourse } = useCreateCourse()
 
   useEffect(() => {
     form.setFieldsValue(formFields)
   }, [form, formFields])
 
-  const onCancel = () => {
-    dispatch(courseActions.closeCourseModal())
-  }
 
   const handleSubmit = async (e: Course) => {
+    const text = type === 'add' ? '新增成功！' : '编辑成功！'
     try {
-      await updateCourse({
-        id: formFields!.id,
-        record: e,
-      })
-      message.success('编辑成功!')
-      dispatch(courseActions.closeCourseModal())
+      if (type === 'add') {
+        await createCourse(e)
+      } else {
+        await updateCourse({
+          id: formFields!.id,
+          record: e,
+        })
+      }
+      form.resetFields()
+      message.success(text)
+      dispatch(close())
     } catch (e) {
       if (e instanceof Error) {
+        form.resetFields()
         message.error(e.message)
       }
     }
   }
 
-  return <Modal
-    forceRender
-    onCancel={onCancel}
-    visible={modalOpen}
-    footer={null}
+  const handleClose = () => {
+    dispatch(close())
+    form.resetFields()
+  }
+
+  return <Drawer
+    width={430}
+    visible={visible}
+    title={<DrawerTitle type={type} />}
+    onClose={handleClose}
   >
     <CourseForm
       onFinish={handleSubmit}
-      isLoading={isLoading}
-      isEditing={true}
       style={{ padding: '2rem' }}
       form={form}
     ></CourseForm>
-  </Modal>
+  </Drawer>
 }
 
+export const DrawerTitle = ({ type }: { type: any }) => {
+  const drawerTitle = type === 'add' ? '新增课程' : '编辑课程'
+
+  return <div style={{
+    color: '#001529'
+  }}>{drawerTitle}</div>
+}

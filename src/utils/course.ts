@@ -2,23 +2,26 @@ import { useMutation, useQuery, useQueryClient } from "react-query"
 import { Course } from "types/course"
 import { useHttp } from "./use-http"
 
-export const useCreateCourse = () => {
-  const http = useHttp()
-
-  return useMutation<any, Error, Course, unknown>((data: Course) => http({
-    url: '/course/create',
-    method: 'POST',
-    data,
-  }))
-}
-
 export const useQueryCourse = () => {
   const http = useHttp()
   return useQuery(['queryCourse'], () => http({
     url: '/course/query',
-    method: 'POST'
+    method: 'post'
   }))
 }
+export const useCreateCourse = () => {
+  const http = useHttp()
+  const queryClient = useQueryClient()
+
+  return useMutation<any, Error, Course, unknown>((data: Course) => http({
+    url: '/course/create',
+    method: 'post',
+    data,
+  }), {
+    onSuccess: () => queryClient.invalidateQueries('queryCourse')
+  })
+}
+
 
 export const useCourseDelete = () => {
   const http = useHttp()

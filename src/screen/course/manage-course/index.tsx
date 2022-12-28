@@ -1,5 +1,5 @@
-import { useQueryCourse, useCourseDelete } from "utils/course"
-import { Table, Popconfirm, message, Row, Col, Button } from 'antd'
+import { useQueryCourse, useCourseDelete } from "api/course"
+import { Table, Popconfirm, message, Row, Col, Button, Input } from 'antd'
 import { ColumnProps } from "antd/lib/table"
 import { Course } from "types/course"
 import { COURSE_MAP } from "utils/constant"
@@ -49,10 +49,10 @@ const columns: ColumnProps<Course>[] = [
 export const ManageCourseScreen = () => {
   const { data: Course, isLoading } = useQueryCourse()
 
-  return <div style={{ padding: '4rem 0' }}>
+  return <>
     <CourseActionView />
     <Table rowKey={'id'} loading={isLoading} dataSource={Course} columns={columns} />
-  </div>
+  </>
 }
 
 const CourseActionView = () => {
@@ -64,9 +64,12 @@ const CourseActionView = () => {
 
   return (
     <div style={{ margin: '0 0 32px 0', }}>
-      <Row>
-        <Col span={6}>
-          <Button onClick={handleAddCourse} type="primary">新增课程</Button>
+      <Row align="middle">
+        <Col span={20}>
+          <Input.Search style={{ width: 200 }} placeholder="请输入课程名称" />
+        </Col>
+        <Col span={4}>
+          <span style={{ float: 'right', margin: "0 2rem" }} onClick={handleAddCourse} className="iconfont">&#xe698;</span>
         </Col>
       </Row>
     </div>)

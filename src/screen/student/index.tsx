@@ -1,20 +1,14 @@
-import { Menu, MenuProps, } from 'antd'
-import { useMenu } from 'utils/use-menu'
+import { Divider, Typography } from 'antd'
 import { Outlet } from 'react-router'
 import { StudentFormModal } from 'components/student'
-import { NavLink } from 'react-router-dom'
 
-const items: MenuProps['items'] = [{
-  label: <NavLink to="manage">学员管理</NavLink>,
-  key: '/student/manage'
-}]
+const { Title } = Typography
 
 export const StudentScreen = () => {
-  const { selectedKey, changeMenuItem } = useMenu(items)
-
   return (
     <div>
-      <Menu defaultSelectedKeys={[selectedKey]} onClick={changeMenuItem} items={items} mode="horizontal" />
+      <Title level={4}>学员管理</Title>
+      <Divider />
       <Outlet />
       <StudentFormModal />
     </div>

@@ -75,7 +75,7 @@ export const Provider = ({ children }: { children: ReactNode }) => {
   }
 
   return <Context.Provider children={children} value={{
-    user, login, logout, register,
+    user, login, logout, register
   }}></Context.Provider>
 }
 

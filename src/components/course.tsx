@@ -2,10 +2,10 @@ import { Button, Form, Input, Radio, InputNumber, Divider, FormProps, message, D
 import { useForm } from 'antd/lib/form/Form'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { CourseState, addCourse, editCourse, close } from 'screen/course/course.slice'
+import { CourseState, close } from 'screen/course/course.slice'
 import { RootState } from 'store'
 import { Course } from 'types/course'
-import { useCourseUpdate, useCreateCourse } from 'utils/course'
+import { useCourseUpdate, useCreateCourse } from 'api/course'
 
 interface CourseFormProps extends FormProps {
   isLoading?: boolean,
@@ -103,7 +103,7 @@ export const CourseFormModal = () => {
     } catch (e) {
       if (e instanceof Error) {
         form.resetFields()
-        message.error(e.message)
+        // message.error(e.message)
       }
     }
   }

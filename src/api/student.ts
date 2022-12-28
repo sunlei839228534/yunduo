@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "react-query"
 import { Student } from "types/student"
-import { useHttp } from "./use-http"
+import { useHttp } from "utils/use-http"
 
 
 export const useQueryStudent = () => {

@@ -1,7 +1,14 @@
+import { Divider, Typography } from 'antd'
+import { Outlet } from 'react-router'
+
+const { Title } = Typography
+
 export const ClassScreen = () => {
   return (
-    <div>
-      classScreen
-    </div>
+    <>
+      <Title level={4}>班级管理</Title>
+      <Divider />
+      <Outlet />
+    </>
   )
 }

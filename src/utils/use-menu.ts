@@ -18,7 +18,7 @@ export const useMenu = (items: MenuProps['items']) => {
     items?.forEach(i => {
       if (!i?.key) return
       const key = normalizedKeys.find(n => n === i.key)
-      //如果匹配上了
+      //匹配上了
       if (key) {
         result = key
       } else {

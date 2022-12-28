@@ -14,7 +14,7 @@ const { Header, Content, Sider } = Layout;
 const items: MenuProps['items'] = [
   { key: '/student', icon: <UserOutlined />, label: '学员管理' },
   { key: '/course', icon: <ScheduleOutlined />, label: '课程管理' },
-  // { key: '/class', icon: <TeamOutlined />, label: '班级管理' }
+  { key: '/class', icon: <TeamOutlined />, label: '班级管理' }
 ];
 
 export const AuthenticatedApp: React.FC = () => {

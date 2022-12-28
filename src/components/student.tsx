@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { close, StudentState } from "screen/student/student.slice"
 import { RootState } from "store"
 import { Student } from "types/student"
-import { useCreateStudent, useStudentUpdate } from "utils/student"
+import { useCreateStudent, useStudentUpdate } from "api/student"
 
 
 interface StudentFormProps extends FormProps {
@@ -97,7 +97,7 @@ export const StudentFormModal = () => {
       dispatch(close())
     } catch (e) {
       if (e instanceof Error) {
-        message.error(e.message)
+        // message.error(e.message)
       }
     }
   }

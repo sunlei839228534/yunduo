@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "react-query"
 import { Course } from "types/course"
-import { useHttp } from "./use-http"
+import { useHttp } from "utils/use-http"
 
 export const useQueryCourse = () => {
   const http = useHttp()

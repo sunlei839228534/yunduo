@@ -19,6 +19,7 @@ export const http = async (config: AxiosRequestConfig) => {
   } catch (e: any) {
     if (e instanceof AxiosError) {
       const errorInfo = e.response?.data.msg
+      message.error(errorInfo)
       throw new Error(errorInfo)
     }
   }

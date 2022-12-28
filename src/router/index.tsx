@@ -1,5 +1,6 @@
 import { Navigate, useRoutes } from "react-router";
 import { ClassScreen } from "screen/class";
+import { ManageClassScreen } from "screen/class/manage-class";
 import { CourseScreen } from "screen/course";
 import { ManageCourseScreen } from "screen/course/manage-course";
 import { StudentScreen } from "screen/student";
@@ -10,7 +11,7 @@ export const useElements = () => {
   return useRoutes([
     {
       path: '',
-      element: <Navigate to={'/student'} />
+      element: <Navigate to={'/student'} />,
     },
     {
       path: '/student',
@@ -18,7 +19,7 @@ export const useElements = () => {
       children: [
         {
           path: '',
-          element: <Navigate to={'manage'} />
+          element: <Navigate to={'manage'} />,
         },
         {
           path: 'manage',
@@ -28,7 +29,17 @@ export const useElements = () => {
     },
     {
       path: '/class',
-      element: <ClassScreen />
+      element: <ClassScreen />,
+      children: [
+        {
+          path: '',
+          element: <Navigate to={'manage'} />
+        },
+        {
+          path: 'manage',
+          element: <ManageClassScreen />
+        }
+      ]
     },
     {
       path: '/course',

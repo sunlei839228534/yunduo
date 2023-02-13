@@ -1,4 +1,3 @@
-import axios from "axios"
 import { AuthForm, RegisterForm, User } from "types/user"
 
 const localStorageKey = '__auth_provider_token__'

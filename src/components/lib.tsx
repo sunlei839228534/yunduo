@@ -50,3 +50,6 @@ export const FullPageLoading = () => <FullPage>
 export const ContextWrapper = styled.div`
   padding: 4rem;
 `
+export const ActionViewWrapper = styled.div`
+  margin: 0 0 1.6rem 0
+`

@@ -103,7 +103,6 @@ export const CourseFormModal = () => {
     } catch (e) {
       if (e instanceof Error) {
         form.resetFields()
-        // message.error(e.message)
       }
     }
   }

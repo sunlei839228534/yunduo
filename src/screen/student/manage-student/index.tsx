@@ -6,6 +6,7 @@ import { Student } from "types/student"
 import { STUDENT_MAP } from "utils/constant"
 import { useQueryStudent, useStudentDelete } from "api/student"
 import { addStudent, editStudent } from "../student.slice"
+import { ActionViewWrapper } from "components/lib"
 
 const columns: ColumnProps<Student>[] = [
   {
@@ -72,16 +73,16 @@ const StudentActionView = () => {
     dispatch(addStudent())
   }
   return (
-    <div style={{ margin: '0 0 3.2rem 0', }}>
+    <ActionViewWrapper>
       <Row align="middle">
         <Col span={20}>
           <Input.Search style={{ width: 200 }} placeholder="请输入学员名称" />
         </Col>
         <Col span={4} >
-          <span style={{ float: 'right', margin: "0 2rem" }} onClick={handleAddStudent} className="iconfont">&#xe698;</span>
+          <span style={{ float: 'right', margin: "0 2rem", color: '#1890ff', fontSize: '3.6rem' }} onClick={handleAddStudent} className="iconfont">&#xe698;</span>
         </Col>
       </Row>
-    </div>)
+    </ActionViewWrapper>)
 }
 
 const ActionScreen = ({ record }: { record: Student }) => {

@@ -5,6 +5,7 @@ import { Course } from "types/course"
 import { COURSE_MAP } from "utils/constant"
 import { useDispatch } from "react-redux"
 import { addCourse, editCourse } from "../course.slice"
+import { ActionViewWrapper } from "components/lib"
 
 
 const columns: ColumnProps<Course>[] = [
@@ -63,16 +64,16 @@ const CourseActionView = () => {
   }
 
   return (
-    <div style={{ margin: '0 0 32px 0', }}>
+    <ActionViewWrapper>
       <Row align="middle">
         <Col span={20}>
           <Input.Search style={{ width: 200 }} placeholder="请输入课程名称" />
         </Col>
         <Col span={4}>
-          <span style={{ float: 'right', margin: "0 2rem" }} onClick={handleAddCourse} className="iconfont">&#xe698;</span>
+          <span style={{ float: 'right', margin: "0 2rem", color: '#1890ff', fontSize: '3.6rem' }} onClick={handleAddCourse} className="iconfont">&#xe698;</span>
         </Col>
       </Row>
-    </div>)
+    </ActionViewWrapper>)
 }
 
 
